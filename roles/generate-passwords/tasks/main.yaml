@@ -1,0 +1,29 @@
+---
+- name: generate passwords
+  delegate_to: localhost
+  set_fact:
+    clear_pass: "{{ fixed_password | default( lookup('password', '/dev/null chars=ascii_letters length=20') ) }}"
+
+- name: encrypt password
+  delegate_to: localhost
+  command: ansible-vault encrypt_string {{ clear_pass }}
+  register: encrypt
+  changed_when: false
+
+- name: set encrypted facts
+  set_fact:
+    enc_pass: "{{ encrypt.stdout }}"
+    sha_pass: "{{ clear_pass | password_hash('sha512', 'blah') }}"
+
+- name: update password file
+  delegate_to: localhost
+  run_once: true
+  template:
+    src: passwords.yaml
+    dest: "{{ playbook_dir }}/group_vars/all/passwords.yaml"
+
+- name: update user passwords
+  become: true
+  user:
+    name: "{{ install_user }}"
+    password: "{{ sha_pass }}"

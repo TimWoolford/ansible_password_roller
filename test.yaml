@@ -1,0 +1,5 @@
+- name: generate passwords
+  remote_user: kinstall
+  hosts: all
+  roles:
+    - generate-passwords

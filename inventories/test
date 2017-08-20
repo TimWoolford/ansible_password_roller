@@ -1,0 +1,14 @@
+[all]
+vm004125.bskyb.com
+vm004126.bskyb.com
+vm004127.bskyb.com
+vm004128.bskyb.com
+vm004129.bskyb.com
+vm004130.bskyb.com
+vm004131.bskyb.com
+vm004132.bskyb.com
+vm004133.bskyb.com
+
+[all:vars]
+install_user=kinstall
+fixed_password=WednesdaySucks1
